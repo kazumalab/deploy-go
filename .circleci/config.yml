@@ -2,6 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
+
 jobs:
   build:
     environment:
@@ -24,3 +25,22 @@ jobs:
       - checkout
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+  deploy:
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - gcp-cli/initialize
+      - run: gcloud app deploy --no-promote --version $CICLE_SHA1 --quiet
+workflows:
+  version: 1
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+        requires:
+          - build
+          filters:
+            branches:
+              only:
+                - master
