@@ -33,7 +33,7 @@ jobs:
       - gcp-cli/initialize
       - run: gcloud app deploy --no-promote --version $CICLE_SHA1 --quiet
 workflows:
-  version: 1
+  version: 2
   build_and_deploy:
     jobs:
       - build
