@@ -4,37 +4,29 @@
 version: 2.1
 orbs:
   gcp-cli: circleci/gcp-cli@1.0.1
-
+executors:
+  golang:
+    docker:
+      - image: circleci/golang:1.9
+  gcloud:
+    docker:
+      - image: google/cloud-sdk:latest
 jobs:
   build:
     environment:
       - GOPAHT: /go
-    docker:
-      # specify the version
-      - image: circleci/golang:1.9
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    #### TEMPLATE_NOTE: go expects specific checkout path representing url
-    #### expecting it in the form of
-    ####   /go/src/github.com/circleci/go-tool
-    ####   /go/src/bitbucket.org/circleci/go-tool
+    executor: golang
     working_directory: /go/src/github.com/kazumalab/deploy-go
     steps:
       - checkout
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
-    docker:
-      - image: google/cloud-sdk:latest
+    executor: gcloud
     steps:
       - checkout
-      - run:
-        name: Deploy to Google App Engine
-        command: gcloud app deploy app.yaml --quiet
+      - gcp-cli/initialize
+      - run: gcloud app deploy app.yaml --quiet
 workflows:
   version: 2
   build_and_deploy:
