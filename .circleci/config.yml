@@ -22,6 +22,8 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
+    environment:
+      - GOPAHT: /go
     executor: gcloud
     steps:
       - checkout
