@@ -22,13 +22,9 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
-    environment:
-      - GOPAHT: /go
-    working_directory: /go/src/github.com/kazumalab/deploy-go
     executor: gcloud
     steps:
       - checkout
-      - run: go get -v -t -d ./...
       - gcp-cli/initialize
       - run: gcloud app deploy app.yaml --quiet
 workflows:
