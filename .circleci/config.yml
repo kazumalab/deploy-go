@@ -19,6 +19,7 @@ jobs:
     working_directory: /go/src/github.com/kazumalab/deploy-go
     steps:
       - checkout
+      - run: go get google.golang.org/appengine
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
