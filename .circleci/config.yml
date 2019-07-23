@@ -28,12 +28,10 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
-    executor: gcloud
     docker:
       - image: google/cloud-sdk:latest
     steps:
       - checkout
-      - gcp-cli/initialize
       - run:
         name: Deploy to Google App Engine
         command: gcloud app deploy app.yaml --quiet
