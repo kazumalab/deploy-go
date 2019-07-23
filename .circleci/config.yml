@@ -28,6 +28,7 @@ jobs:
     executor: gcloud
     steps:
       - checkout
+      - run: go get -v -t -d ./...
       - gcp-cli/initialize
       - run: gcloud app deploy app.yaml --quiet
 workflows:
