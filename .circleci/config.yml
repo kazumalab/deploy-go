@@ -24,6 +24,7 @@ jobs:
   deploy:
     environment:
       - GOPAHT: /go
+    working_directory: /go/src/github.com/kazumalab/deploy-go
     executor: gcloud
     steps:
       - checkout
