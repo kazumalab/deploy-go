@@ -5,10 +5,10 @@ import (
   "net/http/httptest"
 )
 
-func TestHandler(t *testing.T) {
+func TestHandle(t *testing.T) {
   req := httptest.NewRequest("GET", "/", nil)
   w := httptest.NewRecorder()
-  handler(w, req)
+  handle(w, req)
 
   resp := w.Result()
 

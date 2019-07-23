@@ -1,15 +1,21 @@
 package main
 
 import (
-  "fmt"
-  "net/http"
+    "net/http"
+    "encoding/json"
+    "google.golang.org/appengine"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, "Hi, Sample Http")
+type Response struct {
+    Status  string `json:"status"`
+    Message string `json:"message"`
 }
 
 func main() {
-  http.HandleFunc("/", handler)
-  http.ListenAndServe(":8080", nil)
+    http.HandleFunc("/", handle)
+    appengine.Main()
+}
+
+func handle(w http.ResponseWriter, r *http.Request) {
+    json.NewEncoder(w).Encode(Response{Status: "ok", Message: "Hello world."})
 }
