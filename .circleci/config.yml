@@ -3,7 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2.1
 orbs:
-  gcp-cli: circleci/gcp-cli@1.8.2
+  gcp-cli: circleci/gcp-cli@1.0.1
 
 jobs:
   build:
@@ -28,10 +28,12 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
+    executor: gcloud
     docker:
       - image: google/cloud-sdk:latest
     steps:
       - checkout
+      - gcp-cli/initialize
       - run:
         name: Deploy to Google App Engine
         command: gcloud app deploy app.yaml --quiet
@@ -40,8 +42,6 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - gcp-cli/install_and_initialize_cli:
-          executor: gcp-cli/default
       - deploy:
           requires:
             - build
