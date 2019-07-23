@@ -3,7 +3,7 @@ package main
 import (
     "net/http"
     "encoding/json"
-    _ "google.golang.org/appengine"
+    "google.golang.org/appengine"
 )
 
 type Response struct {
