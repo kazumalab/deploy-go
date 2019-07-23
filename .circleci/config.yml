@@ -33,7 +33,7 @@ jobs:
     steps:
       - checkout
       - gcp-cli/install_and_initialize_cli:
-        executor: gcp-cli/default
+          executor: gcp-cli/default
       - run:
         name: Deploy to Google App Engine
         command: gcloud app deploy app.yaml --quiet
