@@ -26,6 +26,7 @@ jobs:
     steps:
       - checkout
       - gcp-cli/initialize
+      - run: go get -u google.golang.org/appengine
       - run: gcloud app deploy --quiet
 workflows:
   version: 2
