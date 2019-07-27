@@ -19,17 +19,14 @@ jobs:
     working_directory: /go/src/github.com/kazumalab/deploy-go
     steps:
       - checkout
-      - run: go get google.golang.org/appengine
       - run: go get -v -t -d ./...
       - run: go test -v ./...
   deploy:
-    environment:
-      - GOPAHT: /go
     executor: gcloud
     steps:
       - checkout
       - gcp-cli/initialize
-      - run: gcloud app deploy app.yaml --quiet
+      - run: gcloud app deploy --quiet
 workflows:
   version: 2
   build_and_deploy:
